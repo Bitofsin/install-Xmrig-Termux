@@ -15,7 +15,7 @@ This will update your Termux, download the xmrig source code, compile it, and cr
 
 ## Customizing the Script
 
-⚠️ **IMPORTANT: Default Values and Timeout**
+⚠️ **IMPORTANT: Default Values and Timeout** ⚠️
 
 The script includes default values for the username, password, and number of mining threads. These default values are set by the script creator and may represent their own configurations. It's highly recommended to replace the default values with your own before running the script.
 
