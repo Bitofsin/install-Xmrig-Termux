@@ -64,7 +64,7 @@ fi
 # Create startxmrig.sh in home directory
 echo '#!/bin/bash' > ~/startxmrig.sh
 echo 'cd ~/xmrig' >> ~/startxmrig.sh
-echo "./xmrig -o gulf.moneroocean.stream:10032 -u $username -p $password -t $mining_threads --randomx-mode light" >> ~/startxmrig.sh
+echo "./xmrig -o gulf.moneroocean.stream:10128 -u $username -p $password -t $mining_threads --randomx-mode light" >> ~/startxmrig.sh
 
 # Make startxmrig.sh executable
 chmod +x ~/startxmrig.sh
