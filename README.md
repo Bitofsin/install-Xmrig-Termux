@@ -8,8 +8,8 @@ This script automates the process of downloading and compiling Monero Ocean's ve
 4. Extracts the downloaded source code.
 5. Compiles xmrig with the necessary settings.
 6. Copies the compiled xmrig binary to the home directory.
-7. Creates a script called `xmrigmoneroocean.sh` in the home directory with the Monero Ocean configuration for running xmrig.
-8. Sets executable permissions for the `xmrigmoneroocean.sh` script.
+7. Creates a script called `startxmrig.sh` in the home directory with the Monero Ocean configuration for running xmrig.
+8. Sets executable permissions for the `startxmrig.sh` script.
 
 This will update your Termux, download the xmrig source code, compile it, and create the xmrigmoneroocean.sh script in your home directory.
 
@@ -43,12 +43,12 @@ By using this script, you acknowledge and agree to the following:
 
 1. Open the Termux app on your Android device.
 2. Install git by running the command: `pkg install git`.
-3. Clone the repository by running: `git clone https://github.com/Bitofsin/Termux-MoneroOcean-script.git`.
-4. Change to the cloned directory: `cd Termux-MoneroOcean-script`.
+3. Clone the repository by running: `git clone https://github.com/Bitofsin/install-Xmrig-Termux.git`.
+4. Change to the cloned directory: `cd install-Xmrig-Termux`.
 5. Make the script executable: `chmod +x xmrig_setup.sh`.
 6. Run the script: `./xmrig_setup.sh`.
 7. Follow the prompts to enter your desired username, password, and number of mining threads.
-8. Once the script finishes executing, you can start mining by running `~/xmrigmoneroocean.sh`.
+8. Once the script finishes executing, you can start mining by running `~/startxmrig.sh`.
 
 Please ensure you have the necessary authorization and comply with all applicable laws and regulations before engaging in cryptocurrency mining.
 
