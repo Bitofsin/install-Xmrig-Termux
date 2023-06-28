@@ -45,8 +45,8 @@ By using this script, you acknowledge and agree to the following:
 2. Install git by running the command: `pkg install git`.
 3. Clone the repository by running: `git clone https://github.com/Bitofsin/install-Xmrig-Termux.git`.
 4. Change to the cloned directory: `cd install-Xmrig-Termux`.
-5. Make the script executable: `chmod +x xmrig_setup.sh`.
-6. Run the script: `./xmrig_setup.sh`.
+5. Make the script executable: `chmod +x build_xmrig.sh`.
+6. Run the script: `./build_xmrig.sh`.
 7. Follow the prompts to enter your desired username, password, and number of mining threads.
 8. Once the script finishes executing, you can start mining by running `~/startxmrig.sh`.
 
