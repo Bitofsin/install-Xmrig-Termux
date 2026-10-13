@@ -19,7 +19,7 @@ chmod +x build_xmrig.sh
 ./build_xmrig.sh
 ```
 
-The setup runs as a full-screen menu (it installs the small `dialog` package for this). Use the arrow keys and Enter, or tap the screen. If you'd rather have plain text prompts, run `./build_xmrig.sh --no-tui`.
+The setup runs as a full-screen menu (it installs the small `dialog` package for this). See [Using the setup screens](#using-the-setup-screens) for how to move around. If you'd rather have plain text prompts, run `./build_xmrig.sh --no-tui`.
 
 Answer the questions, wait for the build to finish (often 10+ minutes on a phone; a progress bar shows how far along it is), then start mining:
 
@@ -29,6 +29,33 @@ Answer the questions, wait for the build to finish (often 10+ minutes on a phone
 ```
 
 > Install Termux from **F-Droid** or **GitHub**, not the Play Store. The Play Store version is outdated and its packages may fail to install.
+
+## Using the setup screens
+
+There are three ways to answer each screen. Use whichever is easiest on your phone.
+
+**1. Type the number, then press Enter (easiest)**
+Every menu option has a number. Press that number to jump to it, then press **Enter**. On yes/no screens, press **Y** or **N**.
+
+**2. Arrow keys**
+Termux shows an extra row of keys above the keyboard with arrows, **Tab** and **Esc**.
+
+| Key | What it does |
+|-----|--------------|
+| ↑ / ↓ | Move up and down a menu |
+| Tab | Move between the **OK** and **Cancel** buttons |
+| Enter | Confirm |
+| Esc | Go with the default answer |
+
+If the extra row isn't showing, hold **Volume Up** and press **Q** to turn it on. You can also hold **Volume Down** and press **W / A / S / D** for up / left / down / right.
+
+**3. Tap**
+You can tap an option or a button (**OK**, **Cancel**, **Yes**, **No**) directly.
+
+**Other things to know**
+- **Typing text** (custom pool, wallet, worker name, password): the box starts filled with the default. Press **Backspace** to clear it, type your own, then press **Enter**. Pressing Enter without changing anything keeps the default.
+- **Cancel** quits the setup without changing anything.
+- If you don't answer a screen within **120 seconds**, it moves on with the default answer.
 
 ## What you'll be asked
 
