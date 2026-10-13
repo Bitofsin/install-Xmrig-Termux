@@ -32,6 +32,8 @@ Answer the questions, wait for the build to finish (often 10+ minutes on a phone
 
 ## Using the setup screens
 
+![The setup screens: pick the miner, update or change settings, pick the pool, wallet, summary, building, done](tui-screens.png)
+
 There are three ways to answer each screen. Use whichever is easiest on your phone.
 
 **1. Type the number, then press Enter (easiest)**
