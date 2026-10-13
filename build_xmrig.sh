@@ -31,6 +31,7 @@ MONEROOCEAN_POOL="gulf.moneroocean.stream:10128"
 SUPPORTXMR_POOL="pool.supportxmr.com:3333"
 PROMPT_TIMEOUT=120
 LOG="$HOME/xmrig-build.log"
+LOG_SHOW="${LOG/#"$HOME"/\~}"   # ~/xmrig-build.log for display
 BACKTITLE="XMRig setup for Termux"
 
 # ---------- Preflight ----------
@@ -65,7 +66,7 @@ term_size() {
   return 0
 }
 
-dlg() { dialog --stdout --backtitle "$BACKTITLE" --timeout "$PROMPT_TIMEOUT" "$@"; }
+dlg() { dialog --stdout --cr-wrap --no-collapse --backtitle "$BACKTITLE" --timeout "$PROMPT_TIMEOUT" "$@"; }
 
 cancel_setup() {
   (( USE_TUI )) && clear
@@ -135,7 +136,7 @@ ui_yesno() {
 # ui_msg "title" "text"  (short timeout so it never blocks unattended runs)
 ui_msg() {
   if (( USE_TUI )); then
-    dialog --backtitle "$BACKTITLE" --title "$1" --timeout 30 --msgbox "$2" 0 0 || true
+    dialog --cr-wrap --no-collapse --backtitle "$BACKTITLE" --title "$1" --timeout 30 --msgbox "$2" 0 0 || true
   else
     echo; echo "== $1 =="; echo -e "$2"
   fi
@@ -144,8 +145,8 @@ ui_msg() {
 fail() {
   if (( USE_TUI )); then
     term_size
-    dialog --backtitle "$BACKTITLE" --title "Setup failed" --msgbox \
-      "$1\n\nLast lines of $LOG:\n\n$(tail -n $(( TERM_H - 14 > 3 ? TERM_H - 14 : 3 )) "$LOG" 2>/dev/null)" \
+    dialog --cr-wrap --no-collapse --backtitle "$BACKTITLE" --title "Setup failed" --msgbox \
+      "$1\n\nLast lines of $LOG_SHOW:\n\n$(tail -n $(( TERM_H - 14 > 3 ? TERM_H - 14 : 3 )) "$LOG" 2>/dev/null)" \
       $(( TERM_H - 2 )) $(( TERM_W - 2 )) || true
     clear
   fi
@@ -260,7 +261,7 @@ compile_source() {
     { cmake --build "$BUILD_ROOT/xmrig/build" -j"$JOBS" 2>&1 | tee -a "$LOG" \
         | sed -un 's/^\[ *\([0-9]\{1,3\}\)%\].*/\1/p'; } \
       | dialog --backtitle "$BACKTITLE" --title "Compiling" --gauge \
-          "Building $LABEL ${BUILD_REF:-(default branch)} with $JOBS jobs.\n\nThis can take 10+ minutes on a phone.\nFull log: $LOG" \
+          "Building $LABEL ${BUILD_REF:-(default branch)} with $JOBS jobs.\n\nThis can take 10+ minutes on a phone.\nLog: $LOG_SHOW" \
           11 $(( TERM_W - 6 )) 0
   else
     section "Compiling with $JOBS jobs"
@@ -351,9 +352,9 @@ fi
 # ---------- 1. Miner ----------
 if [[ -z "${VARIANT:-}" ]]; then
   ui_menu choice "Miner" \
-    "$DEVICE_LINE$ARCH_NOTE\n\nWhich miner do you want to build?\n(Each screen picks its default after ${PROMPT_TIMEOUT}s.)" "1" \
-    1 "Standard XMRig     - works with any Monero pool" \
-    2 "MoneroOcean XMRig  - auto algo-switching on MoneroOcean"
+    "$DEVICE_LINE$ARCH_NOTE\n\nWhich miner do you want to build?\n\nStandard: works with any Monero pool.\nMoneroOcean: auto algo-switching on\nthe MoneroOcean pool.\n\nEach screen picks its default after ${PROMPT_TIMEOUT}s." "1" \
+    1 "Standard XMRig" \
+    2 "MoneroOcean XMRig"
   case "$choice" in
     1|upstream|standard|s|u) VARIANT="upstream" ;;
     2|moneroocean|mo|m)      VARIANT="moneroocean" ;;
@@ -368,9 +369,9 @@ if is_installed; then
   INSTALLED_VER="$(installed_version)"
   ui_menu action "Already installed" \
     "$LABEL ${INSTALLED_VER} is already installed in\n${INSTALL_DIR/#"$HOME"/\~}\n\nWhat do you want to do?" "1" \
-    1 "Update miner to the latest release (keep settings)" \
-    2 "Change settings only (keep this build)" \
-    3 "Rebuild and change settings"
+    1 "Update miner (keeps settings)" \
+    2 "Change settings only" \
+    3 "Rebuild + change settings"
   case "$action" in
     1) do_update; exit 0 ;;
     2) DO_BUILD=0 ;;
@@ -383,11 +384,11 @@ fi
 if [[ -z "${POOL:-}" ]]; then
   if [[ "$VARIANT" == "moneroocean" ]]; then default_pool=2; else default_pool=1; fi
   while [[ -z "${POOL:-}" ]]; do
-    ui_menu pchoice "Pool" "Which pool do you want to mine on?" "$default_pool" \
-      1 "TheMule      $THEMULE_POOL" \
-      2 "MoneroOcean  $MONEROOCEAN_POOL" \
-      3 "SupportXMR   $SUPPORTXMR_POOL" \
-      4 "Custom       enter your own"
+    ui_menu pchoice "Pool" "Which pool do you want to mine on?\n\nTheMule:     ${THEMULE_POOL%%:*}\nMoneroOcean: ${MONEROOCEAN_POOL%%:*}\nSupportXMR:  ${SUPPORTXMR_POOL%%:*}" "$default_pool" \
+      1 "TheMule" \
+      2 "MoneroOcean" \
+      3 "SupportXMR" \
+      4 "Custom pool address"
     case "$pchoice" in
       1) POOL="$THEMULE_POOL" ;;
       2) POOL="$MONEROOCEAN_POOL" ;;
