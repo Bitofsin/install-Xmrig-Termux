@@ -19,7 +19,9 @@ chmod +x build_xmrig.sh
 ./build_xmrig.sh
 ```
 
-Answer the questions, wait for the build to finish (often 10+ minutes on a phone), then start mining:
+The setup runs as a full-screen menu (it installs the small `dialog` package for this). Use the arrow keys and Enter, or tap the screen. If you'd rather have plain text prompts, run `./build_xmrig.sh --no-tui`.
+
+Answer the questions, wait for the build to finish (often 10+ minutes on a phone; a progress bar shows how far along it is), then start mining:
 
 ```bash
 ~/startxmrig.sh        # Standard XMRig
@@ -35,15 +37,16 @@ All questions come **before** the build, so the compile can run without you watc
 | # | Question | Default |
 |---|----------|---------|
 | 1 | Which miner: Standard XMRig or MoneroOcean XMRig | Standard XMRig |
-| 2 | Rebuild? *(only if that miner is already built)* | No (keep the build, just change settings) |
-| 3 | Pool: MoneroOcean, SupportXMR, or custom `host:port` | Matches the miner you picked |
-| 4 | Use TLS? | No |
-| 5 | Wallet address *(checked; you can confirm a non-Monero username for custom pools)* | Script author's wallet ⚠️ |
-| 6 | Worker name *(shown on the pool dashboard)* | Your phone's model, e.g. `Pixel_8` |
-| 7 | Mining threads | `auto` |
-| 8 | RandomX mode: `auto`, `fast` or `light` | `auto` |
-| 9 | Start on boot? *(needs the Termux:Boot app)* | No |
-| 10 | Summary of your choices, then **Continue?** | Yes |
+| 2 | *(only if that miner is already installed)* Update the miner, change settings only, or rebuild and change settings | Update the miner |
+| 3 | Pool: TheMule, MoneroOcean, SupportXMR, or custom (`host:port` or `stratum+tcp://host:port`) | Standard XMRig → **TheMule** (`pool.themule.online:6337`)<br>MoneroOcean XMRig → **MoneroOcean** |
+| 4 | Use TLS? *(skipped and turned on if you enter a `stratum+ssl://` address)* | No |
+| 5 | Wallet address *(checked; a `.workername` suffix is allowed, and you can confirm a username for custom pools)* | Script author's wallet ⚠️ |
+| 6 | Worker name *(shown on the pool dashboard; the login is sent as `wallet.workername`)* | Your phone's model, e.g. `Pixel_8` |
+| 7 | Pool password *(change it only if your pool uses it for settings like a custom difficulty)* | `x` |
+| 8 | Mining threads | `auto` |
+| 9 | RandomX mode: `auto`, `fast` or `light` | `auto` |
+| 10 | Start on boot? *(needs the Termux:Boot app)* | No |
+| 11 | Summary of your choices, then **Continue?** | Yes |
 
 ⏰ **Each question waits 120 seconds.** If you don't answer in time, the default is used.
 
@@ -95,9 +98,27 @@ If you answer yes to *Start on boot*:
 
 Only one miner is set to start on boot at a time. Enabling one removes the other, so they don't compete for the same cores.
 
+## Updating the miner
+
+To get the newest XMRig release **without touching your pool, wallet or other settings**:
+
+```bash
+./build_xmrig.sh --update
+```
+
+- It checks the latest release for each miner you have installed (standard and/or MoneroOcean) and only rebuilds if there's a newer one.
+- Only the `xmrig` binary is replaced. Your start script and settings stay exactly as they are.
+- If the miner is running, it keeps running the old version until you restart it (`~/stopxmrig.sh`, then start it again).
+- To update just one miner: `VARIANT=moneroocean ./build_xmrig.sh --update`.
+- To rebuild even if you're already on the latest release: `FORCE=1 ./build_xmrig.sh --update`.
+
+You can also run `./build_xmrig.sh` normally and choose **Update miner** on the first screen.
+
+The script builds tagged **releases**, not the `master` branch. A release is fixed and tested, so every phone gets the same build. `master` changes whenever new code is pushed and can occasionally be broken. If you really want it: `XMRIG_VERSION=master ./build_xmrig.sh --update`.
+
 ## Changing settings later
 
-Run the script again, pick the same miner, and answer **No** to *Rebuild?*. You'll go straight to the pool and wallet questions and skip the compile.
+Run `./build_xmrig.sh`, pick the same miner, and choose **Change settings only**. You'll go straight to the pool and wallet questions and skip the compile.
 
 ## Skipping the questions
 
@@ -111,11 +132,13 @@ WALLET=<your_wallet> WORKER=phone2 ./build_xmrig.sh
 | Variable | Values |
 |----------|--------|
 | `VARIANT` | `upstream` (standard) or `moneroocean` |
-| `POOL` | `host:port` |
+| `POOL` | `host:port`, `stratum+tcp://host:port`, or `stratum+ssl://host:port` |
 | `TLS` | `y` or `n` |
 | `WALLET` | your wallet address or pool username |
 | `WORKER` | worker name |
-| `XMRIG_VERSION` | a specific release tag, e.g. `v6.26.0` |
+| `PASSWORD` | pool password (default `x`) |
+| `XMRIG_VERSION` | a specific release tag, e.g. `v6.26.0`, or a branch such as `master` |
+| `FORCE` | `1` to rebuild on `--update` even when already up to date |
 
 ## Tips
 
