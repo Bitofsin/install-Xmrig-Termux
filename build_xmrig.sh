@@ -12,7 +12,7 @@ set -euo pipefail
 
 # ---------- Defaults ----------
 DEFAULT_WALLET="49EerUEecJxcFaJUGfEpyna91u5HU1ykHVJnP2BmnT4N3NpDd6qmdfPXzaFx6uRRzEiTMErpieeCiKwyhrbJ1JC29rtu66L"
-PROMPT_TIMEOUT=60
+PROMPT_TIMEOUT=120
 
 # ---------- Preflight ----------
 if [[ "${PREFIX:-}" != *com.termux* ]]; then
@@ -62,7 +62,7 @@ if [[ -z "${VARIANT:-}" ]]; then
   echo "  1) Standard XMRig     - xmrig/xmrig, works with any Monero pool"
   echo "  2) MoneroOcean XMRig  - MoneroOcean/xmrig, auto-switches to the most"
   echo "                          profitable algo (only on the MoneroOcean pool)"
-  choice="$(ask "Choose 1 or 2" "2")"
+  choice="$(ask "Choose 1 or 2" "1")"
   case "$choice" in
     1|upstream|standard|s|u) VARIANT="upstream" ;;
     2|moneroocean|mo|m)      VARIANT="moneroocean" ;;
