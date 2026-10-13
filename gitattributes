@@ -1,0 +1,2 @@
+# Shell scripts must use Linux (LF) line endings or Termux can't run them
+*.sh text eol=lf
