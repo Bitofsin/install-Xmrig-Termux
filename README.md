@@ -17,6 +17,7 @@ git clone https://github.com/Bitofsin/install-Xmrig-Termux.git
 cd install-Xmrig-Termux
 chmod +x build_xmrig.sh
 ./build_xmrig.sh
+cd ~
 ```
 
 The setup runs as a full-screen menu (it installs the small `dialog` package for this). See [Using the setup screens](#using-the-setup-screens) for how to move around. If you'd rather have plain text prompts, run `./build_xmrig.sh --no-tui`.
@@ -132,7 +133,7 @@ Only one miner is set to start on boot at a time. Enabling one removes the other
 To get the newest XMRig release **without touching your pool, wallet or other settings**:
 
 ```bash
-./build_xmrig.sh --update
+~/install-Xmrig-Termux/build_xmrig.sh --update
 ```
 
 - It checks the latest release for each miner you have installed (standard and/or MoneroOcean) and only rebuilds if there's a newer one.
